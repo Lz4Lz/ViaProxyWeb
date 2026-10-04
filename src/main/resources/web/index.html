@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViaProxy</title>
+    <link rel="icon" href="./assets/icon.png" />
+
+    <!-- Pico CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- Alpine -->
+    <script type="module" src="/js/index.js"></script>
+  </head>
+  <body>
+    <main class="container" x-data="index">
+      <nav class="primary">
+        <h1>ViaProxy</h1>
+        <div class="controls">
+          <!---
+          <button
+            @click="saveConfig()"
+            data-tooltip="Saves current configuration"
+            class="outline"
+          >
+            Save
+          </button>-->
+          <button
+            x-show="!status.running"
+            class="outline"
+            @click="toggleProxy()"
+          >
+            Start
+          </button>
+          <button
+            x-show="status.running"
+            class="secondary outline"
+            @click="toggleProxy()"
+          >
+            Stop
+          </button>
+        </div>
+      </nav>
+
+      <nav aria-label="Secondary" class="secondary">
+        <ul>
+          <li>
+            <button
+              @click.prevent="tab = 'status'"
+              :aria-current="tab === 'status' ? 'page' : null"
+            >
+              Status
+            </button>
+          </li>
+          <li>
+            <button
+              @click.prevent="tab = 'accounts'"
+              :aria-current="tab === 'accounts' ? 'page' : null"
+            >
+              Accounts
+            </button>
+          </li>
+          <li>
+            <button
+              @click.prevent="tab = 'realms'"
+              @click="loadRealms()"
+              :aria-current="tab === 'realms' ? 'page' : null"
+            >
+              Realms
+            </button>
+          </li>
+          <li>
+            <button
+              @click.prevent="tab = 'configuration'"
+              :aria-current="tab === 'configuration' ? 'page' : null"
+            >
+              Configuration
+            </button>
+          </li>
+          <li>
+            <button
+              @click.prevent="tab = 'advanced'"
+              :aria-current="tab === 'advanced' ? 'page' : null"
+            >
+              Advanced
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div id="views">
+        <section data-view="status"></section>
+        <section data-view="accounts"></section>
+        <section data-view="realms"></section>
+        <section data-view="configuration"></section>
+        <section data-view="advanced"></section>
+      </div>
+      <div data-view="dialogs"></div>
+    </main>
+  </body>
+</html>

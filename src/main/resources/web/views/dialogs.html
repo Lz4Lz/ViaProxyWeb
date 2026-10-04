@@ -1,0 +1,97 @@
+<dialog x-ref="deleteDialog">
+  <article>
+    <header>
+      <h3>Remove account</h3>
+    </header>
+
+    <p>
+      Are you sure you want to remove the account
+      <strong
+        x-text="accounts.find(account => account.index === selectedAccount)?.name"
+      ></strong>
+      ?
+    </p>
+
+    <footer>
+      <button class="outline" @click="$refs.deleteDialog.close()">
+        Cancel
+      </button>
+
+      <button class="secondary outline" @click="deleteAccount()">Delete</button>
+    </footer>
+  </article>
+</dialog>
+<dialog x-ref="makeAccountDialog">
+  <article>
+    <header><h3>Offline Account</h3></header>
+    <input x-model="offlineUsername" placeholder="Username" />
+    <footer>
+      <button
+        class=""
+        @click="$refs.makeAccountDialog.close()"
+        class="secondary"
+      >
+        Cancel
+      </button>
+      <span
+        style="display: inline-block"
+        :style="!(offlineUsername || '').trim() ? 'cursor: not-allowed' : 'cursor: pointer'"
+      >
+        <button
+          class="outline"
+          :disabled="!(offlineUsername || '').trim()"
+          :style="!(offlineUsername || '').trim() ? 'pointer-events: none' : null"
+          @click="createOffline(offlineUsername)"
+        >
+          Confirm
+        </button>
+      </span>
+    </footer>
+  </article>
+</dialog>
+<dialog x-ref="loginDialog" :open="loginModal.open">
+  <article>
+    <header>
+      <h3>Add Microsoft Account</h3>
+    </header>
+
+    <template x-if="loginModal.status === 'starting'">
+      <div>
+        <p>Preparing Microsoft login...</p>
+      </div>
+    </template>
+
+    <template x-if="loginModal.status === 'pending'">
+      <div>
+        <p>Open the link and, if needed, enter this code:</p>
+
+        <p
+          style="font-size: 1.5rem; font-weight: bold; letter-spacing: 2px"
+          x-text="loginModal.userCode"
+        ></p>
+
+        <p>
+          <a :href="loginModal.directUri" target="_blank" rel="noopener">
+            <span x-text="loginModal.directUri"></span>
+          </a>
+        </p>
+
+        <p>
+          <small>Waiting for you to finish login...</small>
+        </p>
+      </div>
+    </template>
+
+    <template x-if="loginModal.status === 'success'">
+      <p style="color: var(--pico-primary)">Account added successfully!</p>
+    </template>
+
+    <template x-if="loginModal.status === 'error'">
+      <p style="color: red" x-text="loginModal.error || 'Login failed'"></p>
+    </template>
+
+    <footer>
+      <button class="outline" @click="closeLoginModal()">Close</button>
+    </footer>
+  </article>
+</dialog>

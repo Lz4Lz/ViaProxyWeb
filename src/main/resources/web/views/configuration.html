@@ -1,0 +1,40 @@
+<section x-show="tab === 'configuration'" x-cloak>
+  <article>
+    <header>Configuration</header>
+
+    <label>
+      Target Server
+      <input
+        type="text"
+        name="target-address"
+        x-model="config.server_address"
+        placeholder="play.example.com:25565"
+      />
+    </label>
+    <label>
+      Target Version
+      <select x-model="config.server_version">
+        <template x-for="v in versions" :key="v">
+          <option :value="v" x-text="v"></option>
+        </template>
+      </select>
+    </label>
+    <label>
+      Auth Method
+      <select x-model="config.auth_method">
+        <template x-for="m in authMethods" :key="m">
+          <option :value="m" x-text="m"></option>
+        </template>
+      </select>
+    </label>
+
+    <label>
+      <input
+        data-tooltip="Enabling BetaCraft Auth allows you to join classic servers which have online mode enabled."
+        type="checkbox"
+        x-model="config.betacraft_auth"
+      />
+      BetaCraft Auth (classic only)
+    </label>
+  </article>
+</section>

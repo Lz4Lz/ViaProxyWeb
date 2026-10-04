@@ -1,0 +1,105 @@
+<section x-show="tab === 'advanced'" x-cloak>
+  <article>
+    <header>Advanced</header>
+    <label>
+      <strong
+        data-tooltip="The address ViaProxy should accept incoming connections on."
+        >Bind Address</strong
+      >
+      <input
+        x-model="config.bind_address"
+        type="text"
+        name="bind-address"
+        value="0.0.0.0:25568"
+      />
+    </label>
+    <label>
+      <strong
+        data-tooltip="URL of a SOCKS(4/5)/HTTP(S) proxy which will be used for TCP connections."
+        >Proxy URL</strong
+      >
+      <input
+        type="text"
+        name="proxy-url"
+        x-model="config.proxy"
+        placeholder="type://username:password@address:port"
+      />
+    </label>
+    <div class="fieldset-row">
+      <fieldset>
+        <label>
+          <input
+            data-tooltip="Requires an online mode Minecraft Account. Proxy Online Mode allows you to see skins on online mode servers and use the signed chat features."
+            type="checkbox"
+            id="proxyonline"
+            name="proxyonline"
+            x-model="config.proxy_online_mode"
+          />
+          Proxy Online Mode
+        </label>
+        <label>
+          <input
+            data-tooltip="Enables sending signed chat messages on >= 1.19 servers."
+            type="checkbox"
+            id="chatsigning"
+            name="chatsigning"
+            x-model="config.chat_signing"
+          />
+          Chat Signing
+        </label>
+        <label>
+          <input
+            data-tooltip="Enabling this will allow you to ping <= b1.7.3 servers. This may cause issues with servers that block too frequent connections."
+            type="checkbox"
+            id="allowb"
+            name="allowb"
+            x-model="config.allow_beta_pinging"
+          />
+          Allow <= b1.7.3 pinging
+        </label>
+        <label>
+          <input
+            data-tooltip="Accepts resource packs from the server without showing a prompt to the client. This is required for servers that require a resource pack, but the client can't load it due to version differences."
+            type="checkbox"
+            id="fakeresource"
+            name="fakeresource"
+            x-model="config.fake_accept_resource_packs"
+          />
+          Fake accept resource packs
+        </label>
+      </fieldset>
+      <fieldset>
+        <label>
+          <input
+            data-tooltip="Enabling Legacy Skin Loading allows you to see skins on <= 1.6.4 servers."
+            type="checkbox"
+            id="legacyskin"
+            name="legacyskin"
+            x-model="config.legacy_skin_loading"
+          />
+          Legacy Skin Loading
+        </label>
+        <label>
+          <input
+            data-tooltip="Enabling this will prevent getting disconnected from the server when a packet translation error occurs and instead only print the error in the console. This may cause issues depending on the type of packet which failed to translate."
+            type="checkbox"
+            id="ignorepacket"
+            name="ignorepacket"
+            x-model="config.ignore_packet_translation_errors"
+          />
+          Ignore packet translation errors
+        </label>
+        <label>
+          <input
+            data-tooltip="Enables handling and rewriting of Simple Voice Chat mod packets."
+            type="checkbox"
+            id="simplevoice"
+            name="simplevoice"
+            x-model="config.simple_voice_chat_support"
+          />
+          Simple Voice Chat Support
+        </label>
+      </fieldset>
+    </div>
+  </article>
+</section>

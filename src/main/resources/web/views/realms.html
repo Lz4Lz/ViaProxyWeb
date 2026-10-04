@@ -1,0 +1,126 @@
+<section x-show="tab === 'realms'" x-cloak>
+  <article>
+    <header>
+      <template x-if="!status.account">
+        <p>
+          Lists Minecraft Realms for the currently selected account (Java or
+          Bedrock). Select an account under the Accounts tab first.
+        </p>
+      </template>
+      <template x-if="status.account">
+        <span>Account: <strong x-text="status.account"></strong></span>
+      </template>
+    </header>
+
+    <!-- No account -->
+    <template x-if="!status.account">
+      <p class="muted" style="margin: 1.5rem 0; text-align: center">
+        No account selected. Go to Accounts and select a Java or Bedrock
+        account.
+      </p>
+    </template>
+
+    <template x-if="status.account">
+      <div>
+        <template x-if="realmsError">
+          <p
+            class="muted"
+            style="text-align: center; margin: 1.5rem 0"
+            x-text="realmsError"
+          ></p>
+        </template>
+
+        <template x-if="!realmsError && !realmsLoading && realms.length === 0">
+          <p class="muted" style="text-align: center; margin: 1.5rem 0">
+            No Realms found.
+          </p>
+        </template>
+
+        <div class="account-list" x-show="realms.length > 0">
+          <template x-for="realm in realms" :key="realm.id">
+            <div class="account" style="flex-wrap: wrap; gap: 0.5rem">
+              <div style="flex: 1">
+                <strong
+                  x-text="(realm.owner ? realm.owner + ' - ' : '') + realm.name + ' (' + realm.state + ')'"
+                ></strong>
+                <small>
+                  <span x-show="realm.version" x-text="realm.version"></span>
+                  <span
+                    x-show="realm.worldType"
+                    x-text="' - ' + realm.worldType"
+                  ></span>
+                </small>
+                <small x-show="realm.motd" x-text="realm.motd"></small>
+              </div>
+
+              <div class="controls">
+                <button
+                  class="outline"
+                  :disabled="!realm.compatible || realm.expired || realm.joining"
+                  @click="joinRealm(realm)"
+                  x-text="realm.joining ? 'Joining...' : (realm.expired ? 'Expired' : (!realm.compatible ? 'Incompatible' : 'Join'))"
+                ></button>
+
+                <!-- 
+                <span>
+                  <small
+                    x-show="realmsMeta.type"
+                    x-text="'(' + realmsMeta.type + ')'"
+                  ></small>
+                </span>
+                -->
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </template>
+    <template x-if="status.account">
+      <footer>
+        <div class="controls" style="margin-bottom: 1rem; align-items: center">
+          <button
+            class="outline"
+            @click="loadRealms()"
+            :disabled="realmsLoading"
+          >
+            <span x-text="realmsLoading ? 'Loading...' : 'Refresh'"></span>
+          </button>
+          <label x-show="realmsMeta.type === 'java'" style="margin: 0">
+            <input
+              type="checkbox"
+              x-model="realmsSnapshot"
+              @change="loadRealms()"
+            />
+            Snapshot
+          </label>
+        </div>
+      </footer>
+    </template>
+  </article>
+
+  <!-- TOS dialog -->
+  <dialog x-ref="realmsTosDialog">
+    <article>
+      <header><h3>Realms Terms of Service</h3></header>
+      <p>
+        You must accept the
+        <a
+          href="https://aka.ms/MinecraftRealmsTerms"
+          target="_blank"
+          rel="noopener"
+        >
+          Minecraft Realms Terms of Service
+        </a>
+        before joining.
+      </p>
+      <footer>
+        <button class="outline" @click="$refs.realmsTosDialog.close()">
+          Cancel
+        </button>
+        <button class="outline" @click="acceptRealmsTos(realmsSnapshot)">
+          Accept &amp; Join
+        </button>
+      </footer>
+    </article>
+  </dialog>
+</section>

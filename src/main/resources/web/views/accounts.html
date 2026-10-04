@@ -1,0 +1,60 @@
+<section x-show="tab === 'accounts'" x-cloak>
+  <article>
+    <header>
+      <p>
+        To join online-mode servers you need to add a Minecraft account for
+        ViaProxy to use. Click an account to select it. Use the "Remove Account"
+        button to remove the selected account.
+      </p>
+    </header>
+
+    <template x-if="accounts.length === 0">
+      <p class="muted" style="margin: 1.5rem 0; text-align: center">
+        No accounts found.
+      </p>
+    </template>
+
+    <div class="account-list" x-show="accounts.length > 0">
+      <template x-for="account in accounts" :key="account.index">
+        <div
+          class="account"
+          :class="{ 'selected': selectedAccount === account.index }"
+          @click=" !status.running && selectAccount(account.index) "
+          :style="!status.running ? 'cursor: pointer' : 'cursor: not-allowed' "
+        >
+          <div>
+            <strong x-text="account.name"></strong>
+            <small x-text="account.type"></small>
+          </div>
+          <div x-show="selectedAccount === account.index">
+            <small style="color: var(--pico-primary)">Selected</small>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <footer class="controls" style="margin-top: 1.25rem">
+      <button class="outline" @click="startDeviceLogin('microsoft')">
+        Add Microsoft Account
+      </button>
+      <button class="outline" @click="startDeviceLogin('bedrock')">
+        Add Bedrock Account
+      </button>
+      <button class="outline" @click="offlineDialog()">
+        Add Offline Account
+      </button>
+      <span
+        :data-tip="selectedAccount === null ? 'Select an account first' : null"
+        :style="selectedAccount === null ? 'cursor: not-allowed' : ''"
+      >
+        <button
+          class="secondary outline"
+          :disabled="selectedAccount === null"
+          @click="confirmDelete(selectedAccount)"
+        >
+          Remove Account
+        </button></span
+      >
+    </footer>
+  </article>
+</section>

@@ -1,0 +1,5 @@
+name: "ViaProxyWeb"
+version: "1.0.0"
+author: "L4z"
+main: "dev.l4z.viaproxyweb.ViaProxyWeb"
+min-version: "3.4.0"

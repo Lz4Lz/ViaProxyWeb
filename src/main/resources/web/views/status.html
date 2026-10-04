@@ -1,0 +1,47 @@
+<section x-show="tab === 'status'" x-cloak>
+  <article>
+    <!-- <header>Status</header> -->
+
+    <div class="status-grid">
+      <div class="status-item">
+        <small>Proxy</small>
+        <strong>
+          <span :class="status.running ? 'status-green' : 'status-red'">●</span>
+          <span x-text="status.running ? 'Running' : 'Stopped'"></span>
+        </strong>
+      </div>
+
+      <div class="status-item">
+        <small>Account</small>
+        <strong
+          x-text="status.account == '' ? '-' : status.account"
+          id="status-account"
+        ></strong>
+      </div>
+
+      <div class="status-item">
+        <small>Target</small>
+        <strong
+          x-text="status.target == '' ? '-' : status.target"
+          id="status-target"
+        ></strong>
+      </div>
+
+      <div class="status-item">
+        <small>Clients</small>
+        <strong
+          x-text="status.clients == '' ? '0' : status.clients"
+          id="status-clients"
+        ></strong>
+      </div>
+    </div>
+
+    <pre
+      style="margin-top: 25px; margin-bottom: 1px"
+      id="logs"
+      class="log-view"
+    ><code
+  x-html="logs.length ? logs.join('<br>') : 'Waiting for logs...'"
+></code></pre>
+  </article>
+</section>
